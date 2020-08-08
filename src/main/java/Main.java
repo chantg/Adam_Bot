@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
 import java.io.*;
+import java.lang.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -17,7 +18,8 @@ public class Main extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
-        String token = "NzI3NjIzMzA2ODA2NTU4ODcy.Xvun6A.3C2E4k6nh52aUhE375OyvBbSVwc";
+        String token = "Enter your token";
+
         builder.setToken(token);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.addEventListener(new Main());
