@@ -18,7 +18,7 @@ public class Main extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
-        String token = "Enter your token";
+        String token = "NzI3NjIzMzA2ODA2NTU4ODcy.XvuiAg.1B9a2VF8oR9V_iVLce1CuluMsV8";
 
         builder.setToken(token);
         builder.setStatus(OnlineStatus.ONLINE);
@@ -38,61 +38,102 @@ public class Main extends ListenerAdapter {
         br.close();
         return nickname.get((int) Math.floor(Math.random()* nickname.size())); //get random name
     };
-    public void onMessageReceived(MessageReceivedEvent event){
+    public void onMessageReceived(MessageReceivedEvent event) {
         System.out.println("Recieved MEssage from" +
-                event.getAuthor().getName()+ ": " +
+                event.getAuthor().getName() + ": " +
                 event.getMessage().getContentDisplay());
-        if(event.getMessage().getContentRaw().equals("!ping")){
-            event.getChannel().sendMessage("Pong!").queue();
-        }
-        else if (event.getMessage().getContentRaw().equals("!avatar")) {
-            // Send the user's avatar URL
-            System.out.println("WHAT IS IT");
-            event.getChannel().sendMessage(event.getAuthor().getAvatarUrl()).queue();
-        }
-        if (event.getAuthor().getName().split(" ")[0].equals("AdamDZ")) {
-            // Send the user's avatar URL
-            try {
-                event.getChannel().sendMessage(getRandomLine("Adam.txt")).queue();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                event.getChannel().sendMessage("NO").queue();
+        if (event.getMessage().getChannel().getName().charAt(0) == 'v' ||
+                event.getMessage().getChannel().getName().equals("memes")) {
+            if (event.getMessage().getContentRaw().equals("*ping")) {
+                event.getChannel().sendMessage("Pong!").queue();
+            } else if (event.getMessage().getContentRaw().equals("*avatar")) {
+                // Send the user's avatar URL
+                System.out.println("WHAT IS IT");
+                event.getChannel().sendMessage(event.getAuthor().getAvatarUrl()).queue();
             }
-            System.out.println(event.getAuthor().getName().split(" ")[0]);
-
-        }
-        else if (event.getMessage().getContentRaw().split(" ")[0].equals("*add")) {
-            // Send the user's avatar URL
-            try {
-                FileWriter fileWritter = new FileWriter("Adam.txt",true);
-                BufferedWriter bw = new BufferedWriter(fileWritter);
+            if (event.getAuthor().getName().split(" ")[0].equals("AdamDZ")) {
+                // Send the user's avatar URL
                 try {
-                    bw.write("\n" + event.getMessage().getContentRaw().substring(5));
-                    System.out.println("Successfully wrote to the file.");
-                }
-                catch (Exception e) {
+                    event.getChannel().sendMessage(getRandomLine("Adam.txt")).queue();
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    event.getChannel().sendMessage("NO").queue();
                 }
-                bw.close();
-                fileWritter.close();
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
+                System.out.println(event.getAuthor().getName().split(" ")[0]);
+
+            } else if (event.getMessage().getContentRaw().split(" ")[0].equals("*add")) {
+                // Send the user's avatar URL
+                try {
+                    FileWriter fileWritter = new FileWriter("Adam.txt", true);
+                    BufferedWriter bw = new BufferedWriter(fileWritter);
+                    try {
+                        bw.write("\n" + event.getMessage().getContentRaw().substring(5));
+                        System.out.println("Successfully wrote to the file.");
+                        event.getChannel().sendMessage("My name is " + event.getMessage().getContentRaw().substring(5)).queue();
+                    } catch (Exception e) {
+
+                    }
+                    bw.close();
+                    fileWritter.close();
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            }
+            else if (event.getMessage().getContentRaw().split(" ")[0].equals("*addr")) {
+                // Send the user's avatar URL
+                try {
+                    FileWriter fileWritter = new FileWriter("Adam.txt", true);
+                    BufferedWriter bw = new BufferedWriter(fileWritter);
+                    try {
+                        bw.write("\n" + event.getMessage().getContentRaw().substring(5));
+                        System.out.println("Successfully wrote to the Phrase file.");
+                        event.getChannel().sendMessage(event.getMessage().getContentRaw().substring(5)).queue();
+                    } catch (Exception e) {
+
+                    }
+                    bw.close();
+                    fileWritter.close();
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            } else if ((event.getMessage().getContentRaw().toLowerCase().indexOf("adam") != -1) && !event.getAuthor().getName().split(" ")[0].equals("Adam")) {
+                ++Adam;
+            } else if (event.getMessage().getContentRaw().split(" ")[0].equals("*add")) {
+                // Send the user's avatar URL
+                try {
+                    FileWriter fileWritter = new FileWriter("Adam.txt", true);
+                    BufferedWriter bw = new BufferedWriter(fileWritter);
+                    try {
+                        bw.write("\n" + event.getMessage().getContentRaw().substring(5));
+                        System.out.println("Successfully wrote to the file.");
+                        event.getChannel().sendMessage("My name is " + event.getMessage().getContentRaw().substring(5)).queue();
+                    } catch (Exception e) {
+
+                    }
+                    bw.close();
+                    fileWritter.close();
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            }
+            if (event.getMessage().getContentRaw().split(" ")[0].equals("*help")) {
+                event.getChannel().sendMessage("*add: adds a name to the Adam Name list. \n*Summon Adam by saying Adam 3 times.").queue();
+            }
+            if (Adam == 3) {
+                Adam = 0;
+                try {
+                    event.getChannel().sendMessage(getRandomLine("AdamR.txt")).queue();
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
             }
         }
-        else if((event.getMessage().getContentRaw().toLowerCase().indexOf("adam") != -1) && !event.getAuthor().getName().split(" ")[0].equals("Adam")) {
-            ++Adam;
-        }
-        if(Adam == 3){
-            Adam = 0;
-            try {
-                event.getChannel().sendMessage(getRandomLine("AdamR.txt")).queue();
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
-        }
+    }
     };
 
     /*
@@ -116,4 +157,3 @@ else if (event.getAuthor().getName().split(" ")[0].equals("Tim")) {
 
         }
      */
-}
